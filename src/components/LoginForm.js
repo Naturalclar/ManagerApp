@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import {
@@ -6,14 +7,26 @@ import {
   CardSection,
   Input,
   Button,
+  Spinner,
 } from './common';
 
 type Props = {
   emailChanged: Function,
   passwordChanged: Function,
+  loginUser: Function,
   email: String,
   password: String,
+  error: String,
+  loading: Boolean,
 }
+
+const styles = StyleSheet.create({
+  errorTextStyle: {
+    fontSize: 20,
+    alignSelf: 'center',
+    color: 'red',
+  },
+});
 
 class LoginForm extends Component<Props> {
   onEmailChange(text) {
@@ -24,6 +37,40 @@ class LoginForm extends Component<Props> {
   onPasswordChange(text) {
     const { passwordChanged } = this.props;
     passwordChanged(text);
+  }
+
+  onButtonPress() {
+    const { email, password, loginUser } = this.props;
+    loginUser({ email, password });
+  }
+
+  renderError() {
+    const { error } = this.props;
+    if (error) {
+      return (
+        <View style={{ backgroundColor: 'white' }}>
+          <Text style={styles.errorTextStyle}>
+            {error}
+          </Text>
+        </View>
+      );
+    }
+    return null;
+  }
+
+  renderButton() {
+    const { loading } = this.props;
+    if (loading) {
+      return <Spinner size="large" />;
+    }
+
+    return (
+      <Button
+        onPress={() => { this.onButtonPress(); }}
+      >
+        Login
+      </Button>
+    );
   }
 
   render() {
@@ -47,10 +94,11 @@ class LoginForm extends Component<Props> {
             onChangeText={(text) => { this.onPasswordChange(text); }}
           />
         </CardSection>
+
+        {this.renderError()}
+
         <CardSection>
-          <Button>
-            Login
-          </Button>
+          {this.renderButton()}
         </CardSection>
 
       </Card>
@@ -62,6 +110,8 @@ const mapStateToProps = state => (
   {
     email: state.auth.email,
     password: state.auth.password,
+    error: state.auth.error,
+    loading: state.auth.loading,
   }
 );
 
