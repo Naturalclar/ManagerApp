@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
 import firebase from 'firebase';
 import Config from 'react-native-config';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
-import LoginForm from './components/LoginForm';
-import { Header } from './components/common';
+import Router from './Router';
 
 const config = {
   apiKey: Config.API_KEY,
@@ -20,7 +18,6 @@ const config = {
 
 class App extends Component {
   componentWillMount() {
-    console.log(`config: ${JSON.stringify(config)}`);
     firebase.initializeApp(config);
   }
 
@@ -32,10 +29,7 @@ class App extends Component {
     );
     return (
       <Provider store={store}>
-        <View>
-          <Header title="Manager" />
-          <LoginForm />
-        </View>
+        <Router />
       </Provider>
     );
   }
