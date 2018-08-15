@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 const EmployeeList = () => (
   <View>
     <Text>
-      Hello World!
+      {'Hello World!'}
     </Text>
   </View>
 );

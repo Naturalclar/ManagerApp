@@ -18,7 +18,7 @@ type Props = {
   password: String,
   error: String,
   loading: Boolean,
-}
+};
 
 const styles = StyleSheet.create({
   errorTextStyle: {
@@ -55,7 +55,7 @@ class LoginForm extends Component<Props> {
         </View>
       );
     }
-    return null;
+    return <View />;
   }
 
   renderButton() {
@@ -68,7 +68,7 @@ class LoginForm extends Component<Props> {
       <Button
         onPress={() => { this.onButtonPress(); }}
       >
-        Login
+        {'Login'}
       </Button>
     );
   }
